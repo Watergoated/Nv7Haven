@@ -12,7 +12,7 @@ import (
 func (c *Categories) ImageCmd(ctx sevcord.Ctx, cat string, image string) {
 	ctx.Acknowledge()
 
-	// Check element
+	// Check the element
 	var name string
 	var old string
 	err := c.db.QueryRow("SELECT name, image FROM categories WHERE LOWER(name)=$1 AND guild=$2", strings.ToLower(cat), ctx.Guild()).Scan(&name, &old)
@@ -21,7 +21,7 @@ func (c *Categories) ImageCmd(ctx sevcord.Ctx, cat string, image string) {
 		return
 	}
 
-	// Make poll
+	// Make a poll
 	res := c.polls.CreatePoll(ctx, &types.Poll{
 		Kind: types.PollKindCatImage,
 		Data: types.PgData{
@@ -35,12 +35,12 @@ func (c *Categories) ImageCmd(ctx sevcord.Ctx, cat string, image string) {
 		return
 	}
 
-	// Respond
+	// Create a Response
 	ctx.Respond(sevcord.NewMessage(fmt.Sprintf("Suggested an image for category **%s** 📷", name)))
 }
 
 func (c *Categories) SignCmd(ctx sevcord.Ctx, opts []any) {
-	// Check element
+	// Check the element
 	var name string
 	var old string
 	err := c.db.QueryRow("SELECT name, comment FROM categories WHERE LOWER(name)=$1 AND guild=$2", strings.ToLower(opts[0].(string)), ctx.Guild()).Scan(&name, &old)
@@ -49,7 +49,7 @@ func (c *Categories) SignCmd(ctx sevcord.Ctx, opts []any) {
 		return
 	}
 
-	// Get mark
+	// Get a mark
 	ctx.(*sevcord.InteractionCtx).Modal(sevcord.NewModal("Sign Category", func(ctx sevcord.Ctx, s []string) {
 		// Make poll
 		res := c.polls.CreatePoll(ctx, &types.Poll{
